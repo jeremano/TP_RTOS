@@ -63,6 +63,16 @@ int __io_putchar(int ch) {
 	return ch;
 }
 
+/*
+//Q1.1
+--Code
+*/
+
+/*
+//Q1.2
+--Code
+*/
+
 SemaphoreHandle_t sem1;
 /*
 void Cligno(void * unused)
@@ -154,8 +164,17 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	sem1 = xSemaphoreCreateBinary();
 	xQueue1 = xQueueCreate( 1, sizeof( uint8_t) );
-//	BaseType_t xReturned;
+  //	BaseType_t xReturned;
 
+	/*
+	//Q1.1
+	--Code
+	*/
+
+	/*
+	//Q1.2
+	--Code
+	*/
 
 	xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
 	xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
