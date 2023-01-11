@@ -38,34 +38,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := TP_RTOS
+BUILD_ARTIFACT_NAME := RTOS_TP1
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-TP_RTOS.elf \
+RTOS_TP1.elf \
 
 MAP_FILES += \
-TP_RTOS.map \
+RTOS_TP1.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-TP_RTOS.list \
+RTOS_TP1.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: TP_RTOS.elf secondary-outputs
+main-build: RTOS_TP1.elf secondary-outputs
 
 # Tool invocations
-TP_RTOS.elf TP_RTOS.map: $(OBJS) $(USER_OBJS) C:\Users\jmcmo\Desktop\Bureau\ENSEA\3A\RTOS\TP_RTOS\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "TP_RTOS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\jmcmo\Desktop\Bureau\ENSEA\3A\RTOS\TP_RTOS\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TP_RTOS.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+RTOS_TP1.elf RTOS_TP1.map: $(OBJS) $(USER_OBJS) C:\Users\antho\Documents\GitHub\TP_RTOS\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "RTOS_TP1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\antho\Documents\GitHub\TP_RTOS\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_TP1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -74,14 +74,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-TP_RTOS.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "TP_RTOS.list"
+RTOS_TP1.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "RTOS_TP1.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) TP_RTOS.elf TP_RTOS.list TP_RTOS.map default.size.stdout
+	-$(RM) RTOS_TP1.elf RTOS_TP1.list RTOS_TP1.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

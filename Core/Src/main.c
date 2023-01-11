@@ -45,8 +45,16 @@
 
 /* USER CODE BEGIN PV */
 
+	/*
     //Q1.1
 	TaskHandle_t xHandle1 = NULL;
+	QueueHandle_t xQueue1;
+	SemaphoreHandle_t sem1;
+	*/
+
+	//Q1.2
+	TaskHandle_t xHandle1 = NULL;
+	TaskHandle_t xHandle2 = NULL;
 	QueueHandle_t xQueue1;
 	SemaphoreHandle_t sem1;
 
@@ -82,7 +90,7 @@ void Blink(void * unused)
 --Code
 */
 
-/*
+
 void taskBidon(void * unused)
 {
 	for(;;)
@@ -96,12 +104,13 @@ void taskGive(void * unused)
 	uint8_t Pass = 1;
 	for(;;)
 	{
-		xTaskCreate(taskBidon, "taskBidon", 1000, NULL, 1, &xHandle2);
-		//xSemaphoreGive(sem1);
-		//xQueueSend(xQueue1, (void*) &Pass, 1000);
-		printf("%d\r\n", Pass);
-		vTaskDelay(10);
-		Pass++;
+		//xTaskCreate(taskBidon, "taskBidon", 1000, NULL, 1, &xHandle2);
+		xSemaphoreGive(sem1);
+		xQueueSend(xQueue1, (void*) &Pass, 1000);
+		printf("Va donner\r\n");
+		vTaskDelay(100);
+		printf("Donnee\r\n");
+		//Pass++;
 	}
 }
 
@@ -110,25 +119,25 @@ void taskTake(void * unused)
 	uint8_t RxBuffer = 0;
 	for(;;)
 	{
-		/*
+		printf("Va prendre\r\n");
 		if(xSemaphoreTake(sem1, 1000) == pdFALSE)
 		{
 			printf("ERROR\r\n");
 			NVIC_SystemReset();
 		}
-		*/
+		printf("a pris\r\n");
+		vTaskDelay(100);
 		//ulTaskNotifyTake(pdTRUE, 1000)
 		/*
 		if(xQueueReceive(xQueue1, &RxBuffer, 1000) == pdFALSE)
 		{
 			printf("ERROR\r\n");
 			NVIC_SystemReset();
-		}*//*
-		printf("taken\r\n");
-		printf("%d\r\n", RxBuffer);
+		}*/
+
+		//printf("%d\r\n", RxBuffer);
 	}
 }
-*/
 /* USER CODE END 0 */
 
 /**
@@ -162,20 +171,23 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-
+  /*
   //Q1.1
+
   sem1 = xSemaphoreCreateBinary();
   xQueue1 = xQueueCreate(1, sizeof( uint8_t));
   BaseType_t xReturned;
   xReturned = xTaskCreate(Blink, "Blink", 1000, NULL, 1, &xHandle1);
+  */
 
 	/*
 	//Q1.2
 	--Code
 	*/
-
-	//xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
-	//xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
+    sem1 = xSemaphoreCreateBinary();
+    xQueue1 = xQueueCreate(1, sizeof( uint8_t));
+	xTaskCreate(taskGive, "taskGive", 1000, NULL, 1, &xHandle1);
+	xTaskCreate(taskTake, "taskTake", 1000, NULL, 2, &xHandle2);
 	//configASSERT(pdTRUE==xReturned);
 
 	vTaskStartScheduler();
