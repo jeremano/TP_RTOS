@@ -44,10 +44,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
+    //Q1.1
 	TaskHandle_t xHandle1 = NULL;
-	TaskHandle_t xHandle2 = NULL;
 	QueueHandle_t xQueue1;
-/* USER CODE END PV */
+	SemaphoreHandle_t sem1;
+
+	/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -63,19 +66,8 @@ int __io_putchar(int ch) {
 	return ch;
 }
 
-/*
 //Q1.1
---Code
-*/
-
-/*
-//Q1.2
---Code
-*/
-
-SemaphoreHandle_t sem1;
-/*
-void Cligno(void * unused)
+void Blink(void * unused)
 {
 	for(;;)
 	{
@@ -84,7 +76,13 @@ void Cligno(void * unused)
 		vTaskDelay(100);
 	}
 }
+
+/*
+//Q1.2
+--Code
 */
+
+/*
 void taskBidon(void * unused)
 {
 	for(;;)
@@ -125,11 +123,12 @@ void taskTake(void * unused)
 		{
 			printf("ERROR\r\n");
 			NVIC_SystemReset();
-		}*/
+		}*//*
 		printf("taken\r\n");
 		printf("%d\r\n", RxBuffer);
 	}
 }
+*/
 /* USER CODE END 0 */
 
 /**
@@ -162,23 +161,21 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	sem1 = xSemaphoreCreateBinary();
-	xQueue1 = xQueueCreate( 1, sizeof( uint8_t) );
-  //	BaseType_t xReturned;
 
-	/*
-	//Q1.1
-	--Code
-	*/
+
+  //Q1.1
+  sem1 = xSemaphoreCreateBinary();
+  xQueue1 = xQueueCreate(1, sizeof( uint8_t));
+  BaseType_t xReturned;
+  xReturned = xTaskCreate(Blink, "Blink", 1000, NULL, 1, &xHandle1);
 
 	/*
 	//Q1.2
 	--Code
 	*/
 
-	xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
-	xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
-	//xReturned = xTaskCreate(Cligno, "Cligno", 1000, NULL, 1, &xHandle1);
+	//xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
+	//xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
 	//configASSERT(pdTRUE==xReturned);
 
 	vTaskStartScheduler();
