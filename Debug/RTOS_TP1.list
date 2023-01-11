@@ -1978,34 +1978,34 @@ void taskGive(void * unused)
 	for(;;)
 	{
 		//xTaskCreate(taskBidon, "taskBidon", 1000, NULL, 1, &xHandle2);
-		xSemaphoreGive(sem1);
- 8000ed4:	4b0c      	ldr	r3, [pc, #48]	; (8000f08 <taskGive+0x40>)
- 8000ed6:	6818      	ldr	r0, [r3, #0]
- 8000ed8:	2300      	movs	r3, #0
- 8000eda:	2200      	movs	r2, #0
- 8000edc:	2100      	movs	r1, #0
- 8000ede:	f002 fd81 	bl	80039e4 <xQueueGenericSend>
-		xQueueSend(xQueue1, (void*) &Pass, 1000);
- 8000ee2:	4b0a      	ldr	r3, [pc, #40]	; (8000f0c <taskGive+0x44>)
- 8000ee4:	6818      	ldr	r0, [r3, #0]
- 8000ee6:	f107 010f 	add.w	r1, r7, #15
- 8000eea:	2300      	movs	r3, #0
- 8000eec:	f44f 727a 	mov.w	r2, #1000	; 0x3e8
- 8000ef0:	f002 fd78 	bl	80039e4 <xQueueGenericSend>
 		printf("Va donner\r\n");
- 8000ef4:	4806      	ldr	r0, [pc, #24]	; (8000f10 <taskGive+0x48>)
- 8000ef6:	f004 fd3b 	bl	8005970 <puts>
-		vTaskDelay(100);
- 8000efa:	2064      	movs	r0, #100	; 0x64
- 8000efc:	f003 fa2a 	bl	8004354 <vTaskDelay>
-		printf("Donnee\r\n");
- 8000f00:	4804      	ldr	r0, [pc, #16]	; (8000f14 <taskGive+0x4c>)
- 8000f02:	f004 fd35 	bl	8005970 <puts>
+ 8000ed4:	480c      	ldr	r0, [pc, #48]	; (8000f08 <taskGive+0x40>)
+ 8000ed6:	f004 fd4b 	bl	8005970 <puts>
 		xSemaphoreGive(sem1);
+ 8000eda:	4b0c      	ldr	r3, [pc, #48]	; (8000f0c <taskGive+0x44>)
+ 8000edc:	6818      	ldr	r0, [r3, #0]
+ 8000ede:	2300      	movs	r3, #0
+ 8000ee0:	2200      	movs	r2, #0
+ 8000ee2:	2100      	movs	r1, #0
+ 8000ee4:	f002 fd7e 	bl	80039e4 <xQueueGenericSend>
+		xQueueSend(xQueue1, (void*) &Pass, 1000);
+ 8000ee8:	4b09      	ldr	r3, [pc, #36]	; (8000f10 <taskGive+0x48>)
+ 8000eea:	6818      	ldr	r0, [r3, #0]
+ 8000eec:	f107 010f 	add.w	r1, r7, #15
+ 8000ef0:	2300      	movs	r3, #0
+ 8000ef2:	f44f 727a 	mov.w	r2, #1000	; 0x3e8
+ 8000ef6:	f002 fd75 	bl	80039e4 <xQueueGenericSend>
+		printf("Donnee\r\n");
+ 8000efa:	4806      	ldr	r0, [pc, #24]	; (8000f14 <taskGive+0x4c>)
+ 8000efc:	f004 fd38 	bl	8005970 <puts>
+		vTaskDelay(10);
+ 8000f00:	200a      	movs	r0, #10
+ 8000f02:	f003 fa27 	bl	8004354 <vTaskDelay>
+		printf("Va donner\r\n");
  8000f06:	e7e5      	b.n	8000ed4 <taskGive+0xc>
- 8000f08:	200002f4 	.word	0x200002f4
- 8000f0c:	200002f0 	.word	0x200002f0
- 8000f10:	080062d8 	.word	0x080062d8
+ 8000f08:	080062d8 	.word	0x080062d8
+ 8000f0c:	200002f4 	.word	0x200002f4
+ 8000f10:	200002f0 	.word	0x200002f0
  8000f14:	080062e4 	.word	0x080062e4
 
 08000f18 <taskTake>:

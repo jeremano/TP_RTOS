@@ -105,11 +105,11 @@ void taskGive(void * unused)
 	for(;;)
 	{
 		//xTaskCreate(taskBidon, "taskBidon", 1000, NULL, 1, &xHandle2);
+		printf("Va donner\r\n");
 		xSemaphoreGive(sem1);
 		xQueueSend(xQueue1, (void*) &Pass, 1000);
-		printf("Va donner\r\n");
-		vTaskDelay(100);
 		printf("Donnee\r\n");
+		vTaskDelay(10);
 		//Pass++;
 	}
 }
