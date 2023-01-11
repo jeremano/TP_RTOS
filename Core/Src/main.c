@@ -74,6 +74,7 @@ int __io_putchar(int ch) {
 	return ch;
 }
 
+/*
 //Q1.1
 void Blink(void * unused)
 {
@@ -84,13 +85,38 @@ void Blink(void * unused)
 		vTaskDelay(100);
 	}
 }
-
-/*
-//Q1.2
---Code
 */
 
+//Q1.2
+void taskGive(void * unused)
+{
+	for(;;)
+	{
+		xSemaphoreGive(sem1);
+		printf("Va donner\r\n");
+		vTaskDelay(100);
+		printf("Donnee\r\n");
 
+	}
+}
+
+void taskTake(void * unused)
+{
+	for(;;)
+	{
+		printf("Va prendre\r\n");
+		if(xSemaphoreTake(sem1, 1000) == pdFALSE)
+		{
+			printf("ERROR\r\n");
+			NVIC_SystemReset();
+		}
+		printf("a pris\r\n");
+		vTaskDelay(100);
+	}
+}
+
+
+/*
 void taskBidon(void * unused)
 {
 	for(;;)
@@ -98,6 +124,7 @@ void taskBidon(void * unused)
 		vTaskDelay(1000);
 	}
 }
+
 
 void taskGive(void * unused)
 {
@@ -134,10 +161,10 @@ void taskTake(void * unused)
 			printf("ERROR\r\n");
 			NVIC_SystemReset();
 		}*/
-
+/*
 		//printf("%d\r\n", RxBuffer);
 	}
-}
+}*/
 /* USER CODE END 0 */
 
 /**
@@ -173,21 +200,19 @@ int main(void)
 
   /*
   //Q1.1
-
   sem1 = xSemaphoreCreateBinary();
   xQueue1 = xQueueCreate(1, sizeof( uint8_t));
   BaseType_t xReturned;
   xReturned = xTaskCreate(Blink, "Blink", 1000, NULL, 1, &xHandle1);
   */
 
-	/*
+
 	//Q1.2
-	--Code
-	*/
     sem1 = xSemaphoreCreateBinary();
     xQueue1 = xQueueCreate(1, sizeof( uint8_t));
 	xTaskCreate(taskGive, "taskGive", 1000, NULL, 1, &xHandle1);
 	xTaskCreate(taskTake, "taskTake", 1000, NULL, 2, &xHandle2);
+
 	//configASSERT(pdTRUE==xReturned);
 
 	vTaskStartScheduler();
