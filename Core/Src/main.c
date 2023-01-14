@@ -45,18 +45,23 @@
 
 /* USER CODE BEGIN PV */
 
-	/*
-    //Q1.1
-	TaskHandle_t xHandle1 = NULL;
-	QueueHandle_t xQueue1;
-	SemaphoreHandle_t sem1;
-	*/
+/*
+//Q1.1
+TaskHandle_t xHandle1 = NULL;
+QueueHandle_t xQueue1;
+SemaphoreHandle_t sem1;
+*/
 
-	//Q1.2
-	TaskHandle_t xHandle1 = NULL;
-	TaskHandle_t xHandle2 = NULL;
-	QueueHandle_t xQueue1;
-	SemaphoreHandle_t sem1;
+/*
+//Q1.2
+TaskHandle_t xHandle1 = NULL;
+TaskHandle_t xHandle2 = NULL;
+QueueHandle_t xQueue1;
+SemaphoreHandle_t sem1;
+*/
+
+//Q1.3
+TaskHandle_t xHandle1 = NULL;
 
 	/* USER CODE END PV */
 
@@ -87,16 +92,18 @@ void Blink(void * unused)
 }
 */
 
+/*
 //Q1.2
 void taskGive(void * unused)
 {
+	int DelayIncr = 1;
 	for(;;)
 	{
 		xSemaphoreGive(sem1);
 		printf("Va donner\r\n");
-		vTaskDelay(100);
+		vTaskDelay(100 * DelayIncr);
 		printf("Donnee\r\n");
-
+		DelayIncr++;
 	}
 }
 
@@ -114,7 +121,36 @@ void taskTake(void * unused)
 		vTaskDelay(100);
 	}
 }
+*/
 
+//Q1.3
+void taskGive(void * unused)
+{
+	int DelayIncr = 1;
+	for(;;)
+	{
+		printf("Va donner\r\n");
+		xTaskNotifyGive(xHandle1);
+		vTaskDelay(100 * DelayIncr);
+		printf("Donnee\r\n");
+		DelayIncr++;
+	}
+}
+
+void taskTake(void * unused)
+{
+	for(;;)
+	{
+		printf("Va prendre\r\n");
+		if(ulTaskNotifyTake(pdTRUE, 1000) == pdFALSE)
+		{
+			printf("ERROR\r\n");
+			NVIC_SystemReset();
+		}
+		vTaskDelay(100);
+		printf("a pris\r\n");
+	}
+}
 
 /*
 void taskBidon(void * unused)
@@ -201,17 +237,24 @@ int main(void)
   /*
   //Q1.1
   sem1 = xSemaphoreCreateBinary();
-  xQueue1 = xQueueCreate(1, sizeof( uint8_t));
+  xQueue1 = xQueueCreate(1, sizeof(uint8_t));
   BaseType_t xReturned;
   xReturned = xTaskCreate(Blink, "Blink", 1000, NULL, 1, &xHandle1);
   */
 
+  /*
+  //Q1.2
+  sem1 = xSemaphoreCreateBinary();
+  xQueue1 = xQueueCreate(1, sizeof(uint8_t));
+  xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
+  xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
+  */
 
-	//Q1.2
-    sem1 = xSemaphoreCreateBinary();
-    xQueue1 = xQueueCreate(1, sizeof( uint8_t));
-	xTaskCreate(taskGive, "taskGive", 1000, NULL, 1, &xHandle1);
-	xTaskCreate(taskTake, "taskTake", 1000, NULL, 2, &xHandle2);
+  //Q1.3
+  xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
+  xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle1);
+
+
 
 	//configASSERT(pdTRUE==xReturned);
 
