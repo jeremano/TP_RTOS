@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00020074  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000fd8d  00000000  00000000  000200a4  2**0
+ 12 .debug_info   0000fda0  00000000  00000000  000200a4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002917  00000000  00000000  0002fe31  2**0
+ 13 .debug_abbrev 00002917  00000000  00000000  0002fe44  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000cd8  00000000  00000000  00032748  2**3
+ 14 .debug_aranges 00000cd8  00000000  00000000  00032760  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000bb0  00000000  00000000  00033420  2**3
+ 15 .debug_ranges 00000bb0  00000000  00000000  00033438  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00028255  00000000  00000000  00033fd0  2**0
+ 16 .debug_macro  00028255  00000000  00000000  00033fe8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000101be  00000000  00000000  0005c225  2**0
+ 17 .debug_line   000101c0  00000000  00000000  0005c23d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000f1a9c  00000000  00000000  0006c3e3  2**0
+ 18 .debug_str    000f1aa5  00000000  00000000  0006c3fd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  0015de7f  2**0
+ 19 .comment      00000050  00000000  00000000  0015dea2  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000038a8  00000000  00000000  0015ded0  2**2
+ 20 .debug_frame  000038a8  00000000  00000000  0015def4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1418,8 +1418,8 @@ int __io_putchar(int ch) {
  8000ec4:	200002f0 	.word	0x200002f0
 
 08000ec8 <taskGive>:
-}
-*/
+
+//****************************************//
 
 //Q1.3
 void taskGive(void * unused)
@@ -1537,9 +1537,9 @@ int main(void)
  8000f62:	f7ff fb15 	bl	8000590 <MX_GPIO_Init>
   MX_USART1_UART_Init();
  8000f66:	f000 f99b 	bl	80012a0 <MX_USART1_UART_Init>
-  xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
-  xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
   */
+
+//****************************************//
 
   //Q1.3
   xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
@@ -1562,7 +1562,7 @@ int main(void)
  8000f8e:	4908      	ldr	r1, [pc, #32]	; (8000fb0 <main+0x5c>)
  8000f90:	4808      	ldr	r0, [pc, #32]	; (8000fb4 <main+0x60>)
  8000f92:	f002 fc9e 	bl	80038d2 <xTaskCreate>
-
+//****************************************//
 
 
 	//configASSERT(pdTRUE==xReturned);

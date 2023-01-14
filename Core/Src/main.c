@@ -45,23 +45,44 @@
 
 /* USER CODE BEGIN PV */
 
+
+//****************************************//
+
+//****************************************//
+
+
 /*
 //Q1.1
 TaskHandle_t xHandle1 = NULL;
-QueueHandle_t xQueue1;
-SemaphoreHandle_t sem1;
 */
+
+//****************************************//
 
 /*
 //Q1.2
 TaskHandle_t xHandle1 = NULL;
 TaskHandle_t xHandle2 = NULL;
-QueueHandle_t xQueue1;
 SemaphoreHandle_t sem1;
 */
 
+//****************************************//
+
 //Q1.3
 TaskHandle_t xHandle1 = NULL;
+TaskHandle_t xHandle2 = NULL;
+
+//****************************************//
+
+/*
+//Q1.4
+QueueHandle_t xQueue1;
+*/
+
+
+//****************************************//
+
+//****************************************//
+
 
 	/* USER CODE END PV */
 
@@ -79,6 +100,12 @@ int __io_putchar(int ch) {
 	return ch;
 }
 
+
+//****************************************//
+
+//****************************************//
+
+
 /*
 //Q1.1
 void Blink(void * unused)
@@ -91,6 +118,8 @@ void Blink(void * unused)
 	}
 }
 */
+
+//****************************************//
 
 /*
 //Q1.2
@@ -123,6 +152,8 @@ void taskTake(void * unused)
 }
 */
 
+//****************************************//
+
 //Q1.3
 void taskGive(void * unused)
 {
@@ -151,6 +182,20 @@ void taskTake(void * unused)
 		printf("a pris\r\n");
 	}
 }
+
+//****************************************//
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 void taskBidon(void * unused)
@@ -201,6 +246,13 @@ void taskTake(void * unused)
 		//printf("%d\r\n", RxBuffer);
 	}
 }*/
+
+
+//****************************************//
+
+//****************************************//
+
+
 /* USER CODE END 0 */
 
 /**
@@ -234,26 +286,45 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+
+//****************************************//
+
+//****************************************//
+
+
   /*
   //Q1.1
-  sem1 = xSemaphoreCreateBinary();
-  xQueue1 = xQueueCreate(1, sizeof(uint8_t));
   BaseType_t xReturned;
   xReturned = xTaskCreate(Blink, "Blink", 1000, NULL, 1, &xHandle1);
   */
 
+//****************************************//
+
   /*
   //Q1.2
+  sem1 = xSemaphoreCreateBinary();
+  xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
+  xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
+  */
+
+//****************************************//
+
+  //Q1.3
+  xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
+  xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle1);
+
+  /*
+  //QX
   sem1 = xSemaphoreCreateBinary();
   xQueue1 = xQueueCreate(1, sizeof(uint8_t));
   xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
   xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
   */
 
-  //Q1.3
-  xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
-  xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle1);
 
+//****************************************//
+
+//****************************************//
 
 
 	//configASSERT(pdTRUE==xReturned);
@@ -273,11 +344,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		/*
-	  HAL_GPIO_TogglePin(LED_Green_GPIO_Port, LED_Green_Pin);
-	  while(HAL_GPIO_ReadPin(PUSH_GPIO_Port, PUSH_Pin) == 0){}
-	  while(HAL_GPIO_ReadPin(PUSH_GPIO_Port, PUSH_Pin) == 1){}
-		 */
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
