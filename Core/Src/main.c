@@ -198,7 +198,7 @@ void taskGive(void * unused)
 		printf("Va donner\r\n");
 		xQueueSend(xQueue1, (void*) &Pass, 1000);
 		printf("Donnee\r\n");
-		vTaskDelay(10 * Pass);
+		vTaskDelay(100 * Pass);
 		Pass++;
 	}
 }
