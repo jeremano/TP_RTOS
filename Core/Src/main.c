@@ -238,7 +238,6 @@ void taskBidon(void * unused)
 	}
 }
 
-
 void taskGive(void * unused)
 {
 	uint8_t Pass = 1;
@@ -253,30 +252,6 @@ void taskGive(void * unused)
 		//Pass++;
 	}
 }
-
-void taskTake(void * unused)
-{
-	uint8_t RxBuffer = 0;
-	for(;;)
-	{
-		printf("Va prendre\r\n");
-		if(xSemaphoreTake(sem1, 1000) == pdFALSE)
-		{
-			printf("ERROR\r\n");
-			NVIC_SystemReset();
-		}
-		printf("a pris\r\n");
-		vTaskDelay(100);
-		//ulTaskNotifyTake(pdTRUE, 1000)
-		/*
-		if(xQueueReceive(xQueue1, &RxBuffer, 1000) == pdFALSE)
-		{
-			printf("ERROR\r\n");
-			NVIC_SystemReset();
-		}*/
-/*
-		//printf("%d\r\n", RxBuffer);
-	}
 }*/
 
 
@@ -353,14 +328,6 @@ int main(void)
   xQueue1 = xQueueCreate(1, sizeof(uint8_t));
   xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
   xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle1);
-
-  /*
-  //QX
-  sem1 = xSemaphoreCreateBinary();
-  xQueue1 = xQueueCreate(1, sizeof(uint8_t));
-  xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
-  xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle2);
-  */
 
 
 //****************************************//
