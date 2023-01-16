@@ -45,6 +45,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+int delai = 0;
+int activate = 0;
 
 
 //****************************************//
@@ -80,6 +82,8 @@ TaskHandle_t xHandle2 = NULL;
 QueueHandle_t xQueue1;
 TaskHandle_t xHandle1 = NULL;
 TaskHandle_t xHandle2 = NULL;
+TaskHandle_t xHandle3 = NULL;
+TaskHandle_t xHandle4 = NULL;
 
 
 //****************************************//
@@ -113,19 +117,7 @@ int fonction(int argc, char ** argv)
 	return 0;
 }
 
-int led(int argc, char ** argv)
-{
 
-	if(argv[2] > 0){
-		while(1){
-			HAL_GPIO_TogglePin(LED_Green_GPIO_Port, LED_Green_Pin);
-			HAL_Delay(100);
-		}
-	}
-
-
-	return 0;
-}
 //****************************************//
 
 //****************************************//
@@ -242,9 +234,25 @@ void taskTake(void * unused)
 	}
 }
 
+void gereLed(void * unused)
+{
 
+	HAL_GPIO_TogglePin(LED_Green_GPIO_Port, LED_Green_Pin);
+	vTaskDelay(500);
+}
 
+void shell(void * unused)
+{
+	shell_init();
+	shell_run();
+}
 
+int led(int argc, char ** argv)
+{
+	activate = 1;
+	delai = 500;
+	return 0;
+}
 
 
 
@@ -347,20 +355,23 @@ int main(void)
 
 //****************************************//
 
+  /*
   //Q1.4
   xQueue1 = xQueueCreate(1, sizeof(uint8_t));
   xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
   xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle1);
+  */
 
 
 //****************************************//
 
 //****************************************//
 
-	shell_init();
+  	xTaskCreate(gereLed, "gereled", 1000, NULL, 6, &xHandle3);
+  	xTaskCreate(shell, "shell", 1000, NULL, 10, &xHandle4);
 	shell_add('f', fonction, "Une fonction inutile");
 	shell_add('l', led, "j'allume le led");
-	shell_run();
+
 	//configASSERT(pdTRUE==xReturned);
 
 	vTaskStartScheduler();
