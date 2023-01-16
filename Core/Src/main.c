@@ -45,8 +45,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-int delai = 0;
-int activate = 0;
+int delaiL = 0;
+int delaiS = 0;
+int activateL = 0;
+int activateS = 0;
 
 
 //****************************************//
@@ -238,14 +240,30 @@ void gereLed(void * unused)
 {
 	while(1)
 	{
-		if(activate == 1){
-			if(delai > 0){
+		if(activateL == 1){
+			if(delaiL > 0){
 				HAL_GPIO_TogglePin(LED_Green_GPIO_Port, LED_Green_Pin);
-				vTaskDelay(delai);
+				vTaskDelay(delaiL);
 			}
 			else {
-				activate = 0;
+				activateL = 0;
 				HAL_GPIO_WritePin(LED_Green_GPIO_Port, LED_Green_Pin, 0);
+			}
+		}
+	}
+}
+
+void spam(void * unused)
+{
+	while(1)
+	{
+		if(activateS == 1){
+			if(delaiS > 0){
+				HAL_UART_Transmit(&huart1, "Q\r\n", 1, HAL_MAX_DELAY);
+				vTaskDelay(delaiS);
+			}
+			else {
+				activateS = 0;
 			}
 		}
 	}
@@ -258,11 +276,17 @@ void shell(void * unused)
 
 int led(int argc, char ** argv)
 {
-	activate = 1;
-	delai = atoi(argv[1]);
+	activateL = 1;
+	delaiL = atoi(argv[1]);
 	return 0;
 }
 
+int spamchar(int argc, char ** argv)
+{
+	activateS = 1;
+	delaiS = atoi(argv[1]);
+	return 0;
+}
 
 
 
@@ -379,8 +403,10 @@ int main(void)
 	shell_init();
 	shell_add('f', fonction, "Une fonction inutile");
 	shell_add('l', led, "j'allume le led");
-	xTaskCreate(shell, "shell", 1000, NULL, 2, &xHandle4);
+	shell_add('s', spamchar, "je spam de fou");
+	xTaskCreate(shell, "shell", 1000, NULL, 2, &xHandle2);
   	xTaskCreate(gereLed, "gereled", 1000, NULL, 1, &xHandle3);
+  	xTaskCreate(spam, "spam", 1000, NULL, 1, &xHandle4);
 
 
 	//configASSERT(pdTRUE==xReturned);
