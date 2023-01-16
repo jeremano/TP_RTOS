@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#include "cmsis_os.h"
+
 #include "usart.h"
 #include "gpio.h"
 
@@ -23,12 +25,29 @@ static shell_func_t shell_func_list[SHELL_FUNC_LIST_MAX_SIZE];
 
 static char print_buffer[BUFFER_SIZE];
 
+SemaphoreHandle_t sem_uart;
+
 static char uart_read() {
 	char c;
 
-	HAL_UART_Receive(&UART_DEVICE, (uint8_t*)(&c), 1, HAL_MAX_DELAY);
+	HAL_UART_Receive_IT(&UART_DEVICE, (uint8_t*)(&c), 1);
+
+	// semaphore take
+	xSemaphoreTake(sem_uart, portMAX_DELAY);
 
 	return c;
+}
+
+void uart_irq_cb(void)
+{
+	BaseType_t taskWoken = pdFALSE;
+	// semaphore give
+	xSemaphoreGiveFromISR(sem_uart, &taskWoken);
+
+	// xSemaphoreGiveFromISR écrit dans taskWoken (c'est pour ça qu'on passe un pointer) si elle a réveillé une tâche plus prioritaire
+	// on passe taskWoken en paramètre a portYIELD_FROM_ISR qui va appeler le scheduler si une tache plus prioritaire est réveillée
+
+	portYIELD_FROM_ISR(taskWoken)
 }
 
 static int uart_write(char * s, uint16_t size) {
@@ -52,6 +71,8 @@ void shell_init() {
 
 	size = snprintf (print_buffer, BUFFER_SIZE, "\r\n\r\n===== Monsieur Shell v0.2 =====\r\n");
 	uart_write(print_buffer, size);
+
+	sem_uart = xSemaphoreCreateBinary();
 
 	shell_add('h', sh_help, "Help");
 }
