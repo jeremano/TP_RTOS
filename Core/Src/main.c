@@ -118,7 +118,7 @@ int led(int argc, char ** argv)
 
 	if(argv[2] > 0){
 		while(1){
-			HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+			HAL_GPIO_TogglePin(LED_Green_GPIO_Port, LED_Green_Pin);
 			HAL_Delay(100);
 		}
 	}
