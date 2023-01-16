@@ -17,6 +17,7 @@
 #define SHELL_FUNC_LIST_MAX_SIZE 64
 
 void shell_init();
+void uart_irq_cb(void);
 int shell_add(char c, int (* pfunc)(int argc, char ** argv), char * description);
 int shell_run();
 

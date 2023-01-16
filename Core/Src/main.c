@@ -238,8 +238,16 @@ void gereLed(void * unused)
 {
 	while(1)
 	{
-		HAL_GPIO_TogglePin(LED_Green_GPIO_Port, LED_Green_Pin);
-		vTaskDelay(500);
+		if(activate == 1){
+			if(delai > 0){
+				HAL_GPIO_TogglePin(LED_Green_GPIO_Port, LED_Green_Pin);
+				vTaskDelay(delai);
+			}
+			else {
+				activate = 0;
+				HAL_GPIO_WritePin(LED_Green_GPIO_Port, LED_Green_Pin, 0);
+			}
+		}
 	}
 }
 
@@ -251,7 +259,7 @@ void shell(void * unused)
 int led(int argc, char ** argv)
 {
 	activate = 1;
-	delai = 500;
+	delai = atoi(argv[1]);
 	return 0;
 }
 
@@ -372,7 +380,7 @@ int main(void)
 	shell_add('f', fonction, "Une fonction inutile");
 	shell_add('l', led, "j'allume le led");
 	xTaskCreate(shell, "shell", 1000, NULL, 2, &xHandle4);
-  	xTaskCreate(gereLed, "gereled", 1000, NULL, 3, &xHandle3);
+  	xTaskCreate(gereLed, "gereled", 1000, NULL, 1, &xHandle3);
 
 
 	//configASSERT(pdTRUE==xReturned);
