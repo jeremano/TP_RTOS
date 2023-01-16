@@ -103,7 +103,29 @@ int __io_putchar(int ch) {
 	return ch;
 }
 
+int fonction(int argc, char ** argv)
+{
+	for (int i = 0; i < argc; ++i) {
+		printf("argument %d = %s \r\n",i,argv[i]);
+	}
 
+
+	return 0;
+}
+
+int led(int argc, char ** argv)
+{
+
+	if(argv[2] > 0){
+		while(1){
+			HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+			HAL_Delay(100);
+		}
+	}
+
+
+	return 0;
+}
 //****************************************//
 
 //****************************************//
