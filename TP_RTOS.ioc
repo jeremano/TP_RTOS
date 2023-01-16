@@ -1,4 +1,7 @@
 #MicroXplorer Configuration settings - do not modify
+CAD.formats=
+CAD.pinconfig=
+CAD.provider=
 FREERTOS.IPParameters=Tasks01
 FREERTOS.Tasks01=defaultTask,0,128,StartDefaultTask,Default,NULL,Dynamic,NULL,NULL
 File.Version=6
@@ -203,6 +206,7 @@ NVIC.SavedPendsvIrqHandlerGenerated=true
 NVIC.SavedSvcallIrqHandlerGenerated=true
 NVIC.SavedSystickIrqHandlerGenerated=true
 NVIC.SysTick_IRQn=true\:15\:0\:false\:false\:true\:true\:true\:true\:false
+NVIC.USART1_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
 NVIC.UsageFault_IRQn=true\:0\:0\:false\:false\:true\:false\:true\:false\:false
 PA0/WKUP.GPIOParameters=GPIO_PuPd,GPIO_Label,GPIO_Mode
 PA0/WKUP.GPIO_Label=ARDUINO A0
@@ -935,8 +939,8 @@ ProjectManager.MainLocation=Core/Src
 ProjectManager.NoMain=false
 ProjectManager.PreviousToolchain=
 ProjectManager.ProjectBuild=false
-ProjectManager.ProjectFileName=RTOS_TP1.ioc
-ProjectManager.ProjectName=RTOS_TP1
+ProjectManager.ProjectFileName=TP_RTOS.ioc
+ProjectManager.ProjectName=TP_RTOS
 ProjectManager.RegisterCallBack=
 ProjectManager.StackSize=0x400
 ProjectManager.TargetToolchain=STM32CubeIDE
