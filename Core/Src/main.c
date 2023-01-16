@@ -192,13 +192,13 @@ void taskTake(void * unused)
 //Q1.4
 void taskGive(void * unused)
 {
-	int Pass = 0;
+	uint8_t Pass = 1;
 	for(;;)
 	{
 		printf("Va donner\r\n");
 		xQueueSend(xQueue1, (void*) &Pass, 1000);
 		printf("Donnee\r\n");
-		vTaskDelay(10);
+		vTaskDelay(10 * Pass);
 		Pass++;
 	}
 }
