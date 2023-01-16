@@ -269,6 +269,20 @@ void spam(void * unused)
 	}
 }
 
+void crash(void * unused)
+{
+	while(1)
+	{
+	  	if (xTaskCreate(crash, "crash", 1000, NULL, 1, &xHandle1) != pdPASS)
+		{
+			printf("ERROR\r\n");
+			Error_Handler();
+		}
+		printf("Plot \r\n");
+	  	vTaskDelay(100);
+	}
+}
+
 void shell(void * unused)
 {
 	shell_run();
@@ -286,6 +300,16 @@ int spamchar(int argc, char ** argv)
 	activateS = 1;
 	delaiS = atoi(argv[1]);
 	return 0;
+}
+
+int crashshell(int argc, char ** argv)
+{
+  	if (xTaskCreate(crash, "crash", 1000, NULL, 1, &xHandle1) != pdPASS)
+	{
+		printf("ERROR\r\n");
+		Error_Handler();
+	}
+  	printf("Plot \r\n");
 }
 
 
@@ -404,6 +428,7 @@ int main(void)
 	shell_add('f', fonction, "Une fonction inutile");
 	shell_add('l', led, "j'allume le led");
 	shell_add('s', spamchar, "je spam de fou");
+	shell_add('c', crashshell, "J'explose ton PC");
 	xTaskCreate(shell, "shell", 1000, NULL, 2, &xHandle2);
   	xTaskCreate(gereLed, "gereled", 1000, NULL, 1, &xHandle3);
   	xTaskCreate(spam, "spam", 1000, NULL, 1, &xHandle4);
