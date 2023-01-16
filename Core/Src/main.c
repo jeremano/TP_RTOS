@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include "shell.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -334,7 +335,10 @@ int main(void)
 
 //****************************************//
 
-
+	shell_init();
+	shell_add('f', fonction, "Une fonction inutile");
+	shell_add('l', led, "j'allume le led");
+	shell_run();
 	//configASSERT(pdTRUE==xReturned);
 
 	vTaskStartScheduler();
