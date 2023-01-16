@@ -67,16 +67,18 @@ SemaphoreHandle_t sem1;
 
 //****************************************//
 
+/*
 //Q1.3
 TaskHandle_t xHandle1 = NULL;
 TaskHandle_t xHandle2 = NULL;
+*/
 
 //****************************************//
 
-/*
 //Q1.4
 QueueHandle_t xQueue1;
-*/
+TaskHandle_t xHandle1 = NULL;
+TaskHandle_t xHandle2 = NULL;
 
 
 //****************************************//
@@ -154,6 +156,7 @@ void taskTake(void * unused)
 
 //****************************************//
 
+/*
 //Q1.3
 void taskGive(void * unused)
 {
@@ -182,10 +185,39 @@ void taskTake(void * unused)
 		printf("a pris\r\n");
 	}
 }
+*/
 
 //****************************************//
 
+//Q1.4
+void taskGive(void * unused)
+{
+	int Pass = 0;
+	for(;;)
+	{
+		printf("Va donner\r\n");
+		xQueueSend(xQueue1, (void*) &Pass, 1000);
+		printf("Donnee\r\n");
+		vTaskDelay(10);
+		Pass++;
+	}
+}
 
+void taskTake(void * unused)
+{
+	uint8_t RxBuffer = 0;
+	for(;;)
+	{
+		printf("Va prendre\r\n");
+		if(xQueueReceive(xQueue1, &RxBuffer, 1000) == pdFALSE)
+		{
+			printf("ERROR\r\n");
+			NVIC_SystemReset();
+		}
+		printf("a pris\r\n");
+		printf("%d\r\n", RxBuffer);
+	}
+}
 
 
 
@@ -309,7 +341,16 @@ int main(void)
 
 //****************************************//
 
+  /*
   //Q1.3
+  xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
+  xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle1);
+  */
+
+//****************************************//
+
+  //Q1.4
+  xQueue1 = xQueueCreate(1, sizeof(uint8_t));
   xTaskCreate(taskGive, "taskGive", 1000, NULL, 2, &xHandle1);
   xTaskCreate(taskTake, "taskTake", 1000, NULL, 1, &xHandle1);
 
